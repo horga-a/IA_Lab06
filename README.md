@@ -64,6 +64,125 @@ python .\tema_c_explorer.py
 python .\tema_d_bonus_iubire.py
 ```
 
+### 5.1 Cum verifici temele (subpunct)
+
+Inainte de verificare:
+- deschide CoppeliaSim cu scena `pioneer_lab06.ttt`;
+- porneste simularea (Play);
+- evita rularea simultana a altor scripturi care controleaza motoarele robotului.
+
+Verificare Tema A:
+- ruleaza `tema_a_recuperare.py`;
+- confirma in consola tranzitiile `FORWARD -> BACKWARD -> TURNING -> FORWARD`;
+- pune un obstacol in fata robotului si verifica faptul ca nu ramane blocat permanent.
+
+Verificare Tema B:
+- ruleaza `tema_b_logging.py` pentru 20-60s, apoi opreste cu Ctrl+C;
+- verifica existenta fisierului `tema/tema_b_log_braitenberg.csv`;
+- ruleaza `tema_b_grafice.py`;
+- verifica generarea imaginilor:
+	- `tema/tema_b_traseu_xy.png`
+	- `tema/tema_b_viteze_timp.png`
+	- `tema/tema_b_heatmap_senzori.png`
+
+Verificare Tema C:
+- ruleaza `tema_c_explorer.py`;
+- confirma rularea minima de 60s si comportamentul de explorare (wall-follow + recuperare la blocaj);
+- verifica fisierele rezultate:
+	- `tema/tema_c_traseu.csv`
+	- `tema/tema_c_traseu.png`
+
+Verificare Tema D:
+- ruleaza `tema_d_bonus_iubire.py`;
+- plaseaza obstacole/stimuli in fata robotului;
+- confirma ca robotul se orienteaza spre stimul si incetineste cand este aproape.
+
+
+
+
+ 1. Setup o singură dată
+
+În CoppeliaSim:
+Open Scene și încarci scena pioneer_lab06.ttt
+Verifici că robotul PioneerP3DX este prezent
+Pentru teste curate, dezactivezi scriptul intern Braitenberg al robotului (ca să nu se bată cu scripturile tale externe):
+Click dreapta pe PioneerP3DX
+Edit child script
+Disable script (sau comentezi controlul motoarelor)
+Apeși Play în simulator înainte să rulezi scripturile Python
+În PowerShell:
+Dacă nu ai mediu virtual:
+python -m venv .venv
+Activare:
+.venv\Scripts\activate
+
+Instalare:
+pip install -r .\requirements.txt
+
+2. Ce rulezi pentru fiecare temă și ce trebuie să vezi
+
+Tema A
+Rulezi: python tema_a_recuperare.py
+Fișier: tema_a_recuperare.py
+Ce verifici:
+Robotul merge înainte
+Când întâlnește obstacol: dă înapoi ~1s, virează stânga/dreapta, apoi reia mersul
+În consolă vezi stări FORWARD, BACKWARD, TURNING
+Test în Coppelia:
+Pune o cutie în fața robotului și vezi că nu rămâne blocat
+
+
+Tema B
+Pas 1: rulezi logging
+python tema_b_logging.py
+Fișier: tema_b_logging.py
+Lași 20-60 secunde, apoi Ctrl+C
+
+Pas 2: generezi grafice
+python tema_b_grafice.py
+Fișier: tema_b_grafice.py
+Ce verifici:
+există CSV: lab06/tema/tema_b_log_braitenberg.csv
+există PNG-uri:
+lab06/tema/tema_b_traseu_xy.png
+lab06/tema/tema_b_viteze_timp.png
+lab06/tema/tema_b_heatmap_senzori.png
+
+
+Tema C
+Rulezi: python tema_c_explorer.py
+Fișier: tema_c_explorer.py
+Ce verifici:
+rulează minim 60 secunde
+urmărește pereți, evită obstacole și se recuperează dacă se blochează
+la final salvează:
+lab06/tema/tema_c_traseu.csv
+lab06/tema/tema_c_traseu.png
+În Coppelia:
+pregătește arenă cu mai multe obstacole
+pornește screen recording pentru cerința video (din OS sau din Coppelia)
+
+
+Tema D
+Rulezi: python tema_d_bonus_iubire.py
+Fișier: tema_d_bonus_iubire.py
+Ce verifici:
+cu stimul frontal/lateral, robotul se orientează spre el
+când se apropie, încetinește
+în consolă vezi activări aL/aR și viteze vL/vR
+
+
+3. Config minim în Coppelia pentru test corect
+
+Simularea pe Play înainte de script
+Obstacole plasate la distanțe rezonabile (0.3-1.0m de robot)
+Fără alte scripturi active care setează aceleași motoare
+Dacă ceva pare blocat:
+Stop simulation
+Repositionare robot
+Play din nou
+rerulare script
+
 ## 6. Artefacte generate
 
 Tema B:
